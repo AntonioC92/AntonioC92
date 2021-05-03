@@ -1,5 +1,5 @@
 - 👋 Hi, I’m @AntonioC92
-- 👨‍💻 I am a digital marketing specialist
+- 👨‍💻 I am a Digital Marketing Specialist
 - 👨‍🎓 I have recently graduated with a Higher Diploma in Data Analytics, with a focus on Data Mining, Machine Learning and Data Visualisation
 - 👀 I’m interested in improving my knowledge of Machine Learning for Marketing 
 - 💞️ I’m looking to collaborate on Machine Learning Projects
