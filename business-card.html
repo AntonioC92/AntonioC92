@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antonio Caruso | Streetwise Consultancy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #060812;
+            --blue: #4A6CF7;
+            --purple: #7B5CF5;
+            --card-bg: #0D1025;
+            --card-border: rgba(74, 108, 247, 0.25);
+            --text: #FFFFFF;
+            --muted: #6B7FA3;
+        }
+
+        body {
+            background: var(--bg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            overflow: hidden;
+        }
+
+        /* Ambient orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(90px);
+            pointer-events: none;
+        }
+        .orb-1 {
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, #4A6CF7 0%, transparent 70%);
+            top: -150px; left: -150px;
+            opacity: 0.12;
+            animation: driftA 12s ease-in-out infinite;
+        }
+        .orb-2 {
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, #7B5CF5 0%, transparent 70%);
+            bottom: -100px; right: -100px;
+            opacity: 0.10;
+            animation: driftB 10s ease-in-out infinite;
+        }
+        @keyframes driftA { 0%,100%{transform:translate(0,0)} 50%{transform:translate(40px,30px)} }
+        @keyframes driftB { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-30px,-20px)} }
+
+        /* Particle canvas */
+        #particles {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ── Card ── */
+        .card {
+            position: relative;
+            z-index: 10;
+            width: min(700px, 96vw);
+            background: var(--card-bg);
+            border-radius: 22px;
+            padding: clamp(28px, 5%, 44px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 0;
+            box-shadow:
+                0 0 0 1px var(--card-border),
+                0 40px 100px rgba(0,0,0,0.6),
+                0 0 50px rgba(74,108,247,0.07);
+            overflow: hidden;
+            transition: box-shadow 0.4s ease, transform 0.15s ease;
+            will-change: transform;
+            min-height: 340px;
+        }
+
+        .card:hover {
+            box-shadow:
+                0 0 0 1px rgba(74,108,247,0.5),
+                0 50px 120px rgba(0,0,0,0.7),
+                0 0 70px rgba(74,108,247,0.14);
+        }
+
+        /* Mesh gradient */
+        .mesh {
+            position: absolute;
+            top: 0; right: 0;
+            width: 55%; height: 100%;
+            background: radial-gradient(ellipse at top right, rgba(74,108,247,0.11) 0%, transparent 65%);
+            pointer-events: none;
+        }
+
+        /* Thin vertical accent */
+        .deco-line {
+            position: absolute;
+            top: 0; right: clamp(100px,18%,140px);
+            width: 1px; height: 100%;
+            background: linear-gradient(to bottom, transparent, rgba(74,108,247,0.14), transparent);
+        }
+
+        /* ── Top row: logo ── */
+        .top-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1;
+            margin-bottom: 20px;
+        }
+        .logo-icon { width: 36px; height: 36px; flex-shrink: 0; }
+        .logo-wordmark {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--muted);
+            letter-spacing: 0.04em;
+        }
+        .logo-wordmark b { color: var(--text); font-weight: 700; }
+
+        /* ── Name block ── */
+        .name-block {
+            z-index: 1;
+            flex: 1;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: rgba(74,108,247,0.08);
+            border: 1px solid rgba(74,108,247,0.22);
+            padding: 4px 12px;
+            border-radius: 100px;
+            margin-bottom: 12px;
+        }
+        .badge-dot {
+            width: 6px; height: 6px;
+            background: var(--blue);
+            border-radius: 50%;
+            box-shadow: 0 0 6px var(--blue);
+            animation: blink 2.5s ease-in-out infinite;
+        }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+        .badge span {
+            font-size: 10.5px;
+            font-weight: 700;
+            color: var(--blue);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .name {
+            font-size: clamp(42px, 7vw, 62px);
+            font-weight: 900;
+            color: var(--text);
+            line-height: 0.93;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
+        }
+
+        .tagline {
+            font-size: clamp(15px, 2.2vw, 20px);
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.35;
+            letter-spacing: -0.02em;
+            max-width: 560px;
+        }
+        .tagline .grad {
+            background: linear-gradient(130deg, var(--blue) 0%, var(--purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .tagline .dim {
+            color: rgba(255,255,255,0.6);
+            font-weight: 600;
+        }
+
+        /* ── Separator ── */
+        .sep {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(to right, rgba(74,108,247,0.18), rgba(74,108,247,0.06), transparent);
+            margin: 22px 0 20px;
+            z-index: 1;
+        }
+
+        /* ── CTA row ── */
+        .cta-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            z-index: 1;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 12.5px;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            color: #fff;
+            box-shadow: 0 4px 18px rgba(74,108,247,0.32);
+        }
+        .btn-primary:hover {
+            opacity: 0.88;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 26px rgba(74,108,247,0.42);
+        }
+
+        .btn-ghost {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.09);
+            color: var(--muted);
+        }
+        .btn-ghost:hover {
+            background: rgba(255,255,255,0.09);
+            color: var(--text);
+            transform: translateY(-2px);
+        }
+
+        .btn-wa {
+            background: rgba(37,211,102,0.07);
+            border: 1px solid rgba(37,211,102,0.22);
+            color: #25D366;
+        }
+        .btn-wa:hover {
+            background: rgba(37,211,102,0.13);
+            transform: translateY(-2px);
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%) translateY(16px);
+            background: rgba(74,108,247,0.15);
+            border: 1px solid rgba(74,108,247,0.35);
+            backdrop-filter: blur(12px);
+            color: #fff;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 10px 22px;
+            border-radius: 100px;
+            z-index: 200;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            white-space: nowrap;
+        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    </style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<canvas id="particles"></canvas>
+
+<div class="card" id="card">
+    <div class="mesh"></div>
+    <div class="deco-line"></div>
+
+    <!-- Logo -->
+    <div class="top-row">
+        <svg class="logo-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="lg" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#4A6CF7"/><stop offset="1" stop-color="#7B5CF5"/>
+                </linearGradient>
+            </defs>
+            <circle cx="18" cy="18" r="17" stroke="rgba(74,108,247,0.25)" stroke-width="1"/>
+            <path d="M18 6C9 6 5 12 5 18C5 24 9 30 18 30C25 30 30 25 31 20" stroke="url(#lg)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <path d="M18 11C13 11 9 14.5 9 18C9 21.5 13 25 18 25C22 25 25 22.5 26 20" stroke="url(#lg)" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.55"/>
+            <circle cx="18" cy="18" r="2.8" fill="url(#lg)"/>
+        </svg>
+        <span class="logo-wordmark"><b>Streetwise</b> Consultancy</span>
+    </div>
+
+    <!-- Name + tagline -->
+    <div class="name-block">
+        <div class="badge">
+            <div class="badge-dot"></div>
+            <span>Partner</span>
+        </div>
+        <div class="name">Antonio<br>Caruso</div>
+        <div class="tagline">
+            10 years building and running <span class="grad">acquisition engines</span>
+            that turn attention into <span class="dim">qualified leads, booked calls and revenue.</span>
+        </div>
+    </div>
+
+    <!-- Separator -->
+    <div class="sep"></div>
+
+    <!-- CTAs -->
+    <div class="cta-row">
+        <a class="btn btn-primary" href="https://streetwiseconsultancy.com" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+            Visit Website
+        </a>
+        <a class="btn btn-ghost" href="mailto:antonio@streetwiseconsultancy.com">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2.5"/><path d="M2 7.5l10 7 10-7"/></svg>
+            Email
+        </a>
+        <a class="btn btn-wa" href="https://wa.me/353834645622" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.556 4.122 1.524 5.855L.057 23.886a.5.5 0 00.609.61l6.101-1.474A11.947 11.947 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.891 0-3.662-.523-5.17-1.432l-.37-.22-3.822.924.944-3.74-.242-.386A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            WhatsApp
+        </a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/antoniocaruso2702/" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+            LinkedIn
+        </a>
+        <button class="btn btn-ghost" onclick="saveContact()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Save Contact
+        </button>
+    </div>
+</div>
+
+<div class="toast" id="toast">Contact saved ✓</div>
+
+<script>
+// ── 3-D tilt on hover ─────────────────────────────────────────────────────
+const card = document.getElementById('card');
+
+card.addEventListener('mousemove', e => {
+    const r  = card.getBoundingClientRect();
+    const cx = r.left + r.width  / 2;
+    const cy = r.top  + r.height / 2;
+    const rx = ((e.clientY - cy) / (r.height / 2)) * -6;
+    const ry = ((e.clientX - cx) / (r.width  / 2)) *  6;
+    card.style.transition = 'transform 0.1s ease, box-shadow 0.4s ease';
+    card.style.transform  = `perspective(1200px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-8px)`;
+});
+
+card.addEventListener('mouseleave', () => {
+    card.style.transition = 'transform 0.6s ease, box-shadow 0.4s ease';
+    card.style.transform  = '';
+});
+
+// ── Save Contact (vCard) ──────────────────────────────────────────────────
+function saveContact() {
+    const vCard = [
+        'BEGIN:VCARD',
+        'VERSION:3.0',
+        'FN:Antonio Caruso',
+        'N:Caruso;Antonio;;;',
+        'ORG:Streetwise Consultancy',
+        'TITLE:Partner',
+        'TEL;TYPE=CELL:+353834645622',
+        'EMAIL;TYPE=INTERNET:antonio@streetwiseconsultancy.com',
+        'URL:https://streetwiseconsultancy.com',
+        'X-SOCIALPROFILE;type=linkedin:https://www.linkedin.com/in/antoniocaruso2702/',
+        'NOTE:Growth\\, Systems & AI for Modern Businesses',
+        'END:VCARD'
+    ].join('\r\n');
+
+    const blob = new Blob([vCard], { type: 'text/vcard;charset=utf-8' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = 'antonio-caruso.vcf';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2800);
+}
+
+// ── Particle system ───────────────────────────────────────────────────────
+const canvas = document.getElementById('particles');
+const ctx    = canvas.getContext('2d');
+
+function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+const pts = Array.from({ length: 55 }, () => ({
+    x:  Math.random() * window.innerWidth,
+    y:  Math.random() * window.innerHeight,
+    r:  Math.random() * 1.2 + 0.4,
+    vx: (Math.random() - 0.5) * 0.25,
+    vy: (Math.random() - 0.5) * 0.25,
+    a:  Math.random() * 0.3 + 0.08
+}));
+
+function drawParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pts.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0) p.x = canvas.width;
+        if (p.x > canvas.width)  p.x = 0;
+        if (p.y < 0) p.y = canvas.height;
+        if (p.y > canvas.height) p.y = 0;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(74,108,247,${p.a})`;
+        ctx.fill();
+    });
+    requestAnimationFrame(drawParticles);
+}
+drawParticles();
+</script>
+
+</body>
+</html>
