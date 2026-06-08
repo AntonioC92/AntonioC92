@@ -1,5 +1,5 @@
-- 👋  Hi, I’m @AntonioC92
-- 👨‍💻  I am currently working as Marketing Manager at Grey Dog, a marketing & event agency with clients in the UK and the US
+- 👋  Hi, I’m Antonio Caruso
+- 👨‍💻  I am currently working as Marketing Independent Consultant, serving global clients across several industries 
 - 👨‍🎓  I pursued a Master's of Science in Digital Marketing and a Higher Diploma in Data Analytics, with a focus on Data Mining, Machine Learning and Data Visualisation
 - 👀  I’m interested in improving my knowledge of Machine Learning for Marketing 
 - 💞️  I’m looking to collaborate on Machine Learning Projects
